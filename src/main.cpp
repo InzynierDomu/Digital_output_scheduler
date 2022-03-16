@@ -65,11 +65,11 @@ Action is_action(const Time_range* times, const uint8_t times_count, const DateT
 {
   for (uint8_t i = 0; i < times_count; i++)
   {
-    if (compare_time((times + i)->hour_start, (times + i)->minute_start, now))
+    if (compare_time(times[i].hour_start, times[i].minute_start, now))
     {
       return Action::start;
     }
-    else if (compare_time((times + i)->hour_stop, (times + i)->minute_stop, now))
+    else if (compare_time(times[i].hour_stop, times[i].minute_stop, now))
     {
       return Action::stop;
     }
