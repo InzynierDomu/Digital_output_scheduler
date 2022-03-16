@@ -100,13 +100,15 @@ RTC_DS1307 m_rtc;
 
 const uint32_t m_refresh_time_ms = 60000;
 
+// CONFIGURATION
+
 const uint8_t m_button_pin = 7;
 
-const uint8_t m_light_pin = 8;
+const uint8_t m_light_pin = 1;
 const uint8_t m_light_range_count = 2;
 Time_range m_light[m_light_range_count]{Time_range(8, 20, 9, 40), Time_range(20, 10, 23, 40)};
 
-const uint8_t m_pump_pin = 9;
+const uint8_t m_pump_pin = 5;
 const uint8_t m_pump_range_count = 1;
 Time_range m_pump[m_pump_range_count]{Time_range(10, 0, 10, 10)};
 
@@ -115,6 +117,8 @@ bool week[7]{false, true, false, true, false, true, false};
 
 const uint8_t m_opoutputs_count = 2;
 Output m_outputs[m_opoutputs_count]{{m_light_pin, week, m_light, m_light_range_count}, {m_pump_pin, week, m_pump, m_pump_range_count}};
+
+//
 
 void setup()
 {
