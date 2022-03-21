@@ -1,54 +1,14 @@
 #include "RTClib.h"
 
 #include <Arduino.h>
+#include "Output.h"
+#include "Time_range.h"
 
 enum class Action
 {
   start,
   stop,
   none
-};
-
-struct Time_range
-{
-  Time_range(uint8_t _hour_start, uint8_t _minute_start, uint8_t _hour_stop, uint8_t _minute_stop)
-  : hour_start(_hour_start)
-  , minute_start(_minute_start)
-  , hour_stop(_hour_stop)
-  , minute_stop(_minute_stop)
-  {}
-
-  uint8_t hour_start;
-  uint8_t minute_start;
-  uint8_t hour_stop;
-  uint8_t minute_stop;
-};
-
-uint8_t convert_days(bool days[7])
-{
-  uint8_t retval = 0;
-  for (int i = 0; i < 7; i++)
-  {
-    if (days[i])
-    {
-      retval |= 1 << i;
-    }
-  }
-  return retval;
-}
-
-struct Output
-{
-  Output(uint8_t _pin, bool _days[7], Time_range* _times, uint8_t _times_count)
-  : pin(_pin)
-  , days(convert_days(_days))
-  , times(_times)
-  , times_count(_times_count)
-  {}
-  uint8_t pin;
-  uint8_t days;
-  Time_range* times;
-  uint8_t times_count;
 };
 
 bool chceck_day(const uint8_t days, const DateTime& now)
