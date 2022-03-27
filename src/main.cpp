@@ -64,7 +64,7 @@ const uint32_t m_refresh_time_ms = 60000;
 
 const uint8_t m_button_pin = 7;
 
-const uint8_t m_light_pin = 1;
+const uint8_t m_light_pin = LED_BUILTIN;
 const uint8_t m_light_range_count = 2;
 Time_range m_light[m_light_range_count]{Time_range(8, 20, 9, 40), Time_range(20, 10, 23, 40)};
 
@@ -122,7 +122,7 @@ void loop()
 
   if (digitalRead(m_button_pin) == LOW)
   {
-    auto state = digitalRead(m_light_pin);
-    digitalWrite(m_light_pin, ~state);
+    digitalWrite(m_light_pin, digitalRead(m_light_pin) == HIGH ? LOW : HIGH);
+    //todo: block for ~10ms or chceck button status
   }
 }
