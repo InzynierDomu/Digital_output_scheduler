@@ -1,19 +1,49 @@
+/**
+ * @file Main.cpp
+ * @brief Digital output scheduler
+ * @author by Szymon Markiewicz
+ * @details http://www.inzynierdomu.pl/
+ * @date 05-2023
+ */
+
 #include "Output.h"
 #include "RTClib.h"
 #include "Time_range.h"
 
 #include <Arduino.h>
+#include <SPI.h>
 
+/**
+ * @brief Checks if today is the day the output should be active.
+ * @param days: An representing the days of the week on which the output should be active.
+ * @param now: The current date.
+ * @return true if today is one of the days when output have active time.
+ */
 bool chceck_day(const uint8_t days, const DateTime& now)
 {
   return (days & (1 << now.dayOfTheWeek()));
 }
 
+/**
+ * @brief Compares two times (hours and minutes).
+ * @param h: The hour to compare.
+ * @param m: The minute to compare.
+ * @param now: The current time object.
+ * @return true if h and m match the hour and minute of the now.
+ */
 bool compare_time(const uint8_t h, const uint8_t m, const DateTime& now)
 {
   return ((h == now.hour()) && (m == now.minute()));
 }
 
+/**
+ * @brief Determines if the output should be started or stopped based on the current time.
+ * @param times: An array of Time_range objects representing the time ranges during which the output should be active.
+ * @param times_count: The number of time ranges in the 'times' array.
+ * @param now: The current DateTime..
+ * @param state: The current state of the output.
+ * @return The Action that should be taken.
+ */
 Action is_action(const Time_range* times, const uint8_t times_count, const DateTime& now, const Action state)
 {
   if (state != Action::start)
@@ -41,6 +71,11 @@ Action is_action(const Time_range* times, const uint8_t times_count, const DateT
   return Action::none;
 }
 
+/**
+ * @brief Checks if the output should be started or stopped based on the current time and day.
+ * @param output: The output to check.
+ * @param now: The current DateTime.
+ */
 void check_action(Output& output, const DateTime& now)
 {
   if (chceck_day(output.days, now))
@@ -66,14 +101,11 @@ void check_action(Output& output, const DateTime& now)
   }
 }
 
-RTC_DS1307 m_rtc;
+RTC_DS1307 m_rtc; ///< handling DS1307 RTC
 
-const uint32_t m_refresh_time_ms = 60000;
+const uint32_t m_refresh_time_ms = 60000; ///< checking interval
 
-// CONFIGURATION
-
-const uint8_t m_button_pin_light = 7;
-const uint8_t m_button_pin_pump = 8;
+// CONFIGURATION (example)
 
 const uint8_t m_light_pin = 9;
 const uint8_t m_light_range_count = 2;
@@ -98,8 +130,9 @@ Output m_outputs[m_opoutputs_count]{{m_light_pin, week, m_light, m_light_range_c
                                     {m_pump_pin, week, m_pump, m_pump_range_count},
                                     {m_relay_pin, week, m_relay, m_relay_range_count}};
 
-//
-
+/**
+ * @brief Setup.
+ */
 void setup()
 {
   Wire.begin();
@@ -122,11 +155,11 @@ void setup()
   {
     check_action(m_outputs[i], now);
   }
-
-  pinMode(m_button_pin_light, INPUT_PULLUP);
-  pinMode(m_button_pin_pump, INPUT_PULLUP);
 }
 
+/**
+ * @brief main loop.
+ */
 void loop()
 {
   static unsigned long last_loop_time;
@@ -145,18 +178,5 @@ void loop()
     {
       check_action(m_outputs[i], now);
     }
-  }
-
-  if (digitalRead(m_button_pin_light) == LOW)
-  {
-    digitalWrite(m_light_pin, LOW);
-    Serial.println("button pin light press");
-    delay(100);
-  }
-
-  if (digitalRead(m_button_pin_pump) == LOW)
-  {
-    digitalWrite(m_pump_pin, LOW);
-    delay(100);
   }
 }
