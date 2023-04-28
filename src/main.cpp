@@ -123,10 +123,10 @@ Time_range m_relay[m_relay_range_count]{Time_range(13, 28, 16, 10)};
 bool week[7]{true, true, true, true, true, true, true};
 
 // from 0 (Sunday) to 6 (Saturday)
-bool week_holiday[7]{false, true, true, true, true, true, true};
+bool week_holiday[7]{false, true, true, true, true, true, false};
 
 const uint8_t m_opoutputs_count = 3;
-Output m_outputs[m_opoutputs_count]{{m_light_pin, week, m_light, m_light_range_count},
+Output m_outputs[m_opoutputs_count]{{m_light_pin, week_holiday, m_light, m_light_range_count},
                                     {m_pump_pin, week, m_pump, m_pump_range_count},
                                     {m_relay_pin, week, m_relay, m_relay_range_count}};
 
