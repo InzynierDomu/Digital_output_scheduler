@@ -5,7 +5,6 @@
 <a href="https://inzynierdomu.github.io/Digital_output_scheduler/">![GitHub docs deployments](https://img.shields.io/github/deployments/InzynierDomu/Digital_output_scheduler/github-pages?label=docs&logo=BookStack&logoColor=white&style=flat-square)</a>
 <a href="https://discord.gg/KmW6mHdg">![Discord](https://img.shields.io/discord/815929748882587688?logo=discord&logoColor=green&style=flat-square)</a>
 ![GitHub](https://img.shields.io/github/license/InzynierDomu/Digital_output_scheduler?style=flat-square)
-<a href="https://tipo.live/p/inzynierdomu">![support](https://img.shields.io/badge/support-tipo.live-yellow?style=flat-square)</a>
 
 - [Digital output scheduler](#digital-output-scheduler)
   - [About](#about)
@@ -36,6 +35,12 @@ Output m_outputs[m_opoutputs_count]{{m_light_pin, week_holiday, m_light, m_light
 ```
 There are three outputs, for example the first binds pin, and hourly and day schedules.<br>
 Define the number of outputs, in this case 3.
+
+<div align="center">
+<h2>Support</h2>
+
+<p>If any of my projects have helped you in your work, studies, or simply made your day better, you can buy me a coffee. <a href="https://buycoffee.to/inzynier-domu" target="_blank"><img src="https://buycoffee.to/img/share-button-primary.png" style="width: 195px; height: 51px" alt="Postaw mi kawę na buycoffee.to"></a></p>
+</div>
 
 ## Scheme
 Example using one relay. There doesn't have to be a relay on the output, it can be anything with two-state operation, e.g. LED. There may be more outputs, they are defined in the code.
